@@ -1,0 +1,22 @@
+spring:
+  datasource:
+    url:
+    username:
+    password:
+
+  jpa:
+    hibernate:
+      ddl-auto:
+
+    properties:
+      javax:
+        persistence:
+          sharedCache:
+            mode:
+
+      hibernate:
+        dialect:
+        cache:
+          use_second_level_cache:
+          region:
+            factory_class:
