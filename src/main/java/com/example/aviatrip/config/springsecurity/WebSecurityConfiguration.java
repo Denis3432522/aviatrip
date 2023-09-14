@@ -36,8 +36,8 @@ import java.util.Arrays;
 @ComponentScan("com.example.aviatrip")
 public class WebSecurityConfiguration {
 
-    @Autowired
-    UserRepository playerRepository;
+
+    UserRepository userRepository;
 
     @Bean
     protected SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -107,7 +107,7 @@ public class WebSecurityConfiguration {
 
     @Bean
     protected AuthenticationSuccessHandler authenticationSuccessHandler() {
-        return new SimpleUrlAuthenticationSuccessHandler("/api/user");
+        return new SimpleUrlAuthenticationSuccessHandler("/user");
     }
 
     @Bean
@@ -122,7 +122,7 @@ public class WebSecurityConfiguration {
 
     @Bean
     protected UserDetailsService userDetailsService() {
-        return new PersistentUserDetailsService(playerRepository);
+        return new PersistentUserDetailsService(userRepository);
     }
 
     @Bean

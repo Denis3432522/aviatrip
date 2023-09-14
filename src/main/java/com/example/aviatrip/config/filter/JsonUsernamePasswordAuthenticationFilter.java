@@ -21,7 +21,7 @@ public class JsonUsernamePasswordAuthenticationFilter extends AbstractAuthentica
     private UserSessionManager sessionManager;
 
     public JsonUsernamePasswordAuthenticationFilter() {
-        super(new AntPathRequestMatcher("/api/auth/signin", "POST"));
+        super(new AntPathRequestMatcher("/auth/signin", "POST"));
     }
 
     @Override

@@ -4,6 +4,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
+import org.hibernate.annotations.CreationTimestamp;
+
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "users")
@@ -12,7 +15,6 @@ public class User {
     @Column(name = "user_id")
     @Id
     @GeneratedValue
-    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private long id;
 
     @Column
@@ -44,6 +46,10 @@ public class User {
     @JoinColumn(name = "role_id", nullable = false)
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private Role role;
+
+    @CreationTimestamp
+    @Column(name = "created_at", updatable = false, nullable = false)
+    private LocalDateTime createdAt;
 
     public User() {}
 

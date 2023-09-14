@@ -8,8 +8,9 @@ import org.springframework.security.config.annotation.web.configurers.AuthorizeH
 public class HttpRequestAuthorizer implements Customizer<AuthorizeHttpRequestsConfigurer<HttpSecurity>.AuthorizationManagerRequestMatcherRegistry> {
     @Override
     public void customize(AuthorizeHttpRequestsConfigurer<HttpSecurity>.AuthorizationManagerRequestMatcherRegistry a) {
-        a.requestMatchers(HttpMethod.POST, "/api/auth/signup/**").permitAll()
-                .requestMatchers(HttpMethod.POST, "/api/auth/signin").permitAll()
+        a.requestMatchers(HttpMethod.POST, "/auth/signup/**").permitAll()
+                .requestMatchers(HttpMethod.POST, "/auth/signin").permitAll()
+                //.requestMatchers(HttpMethod.)
                 .anyRequest().authenticated();
     }
 }

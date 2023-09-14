@@ -60,7 +60,7 @@ public class UserService {
     }
 
     public User retrieveUser(Long userId) {
-        return userRepository.findById(userId).orElseThrow(RuntimeException::new);
+        return userRepository.findById(userId).orElseThrow(() -> new RuntimeException("user with " + userId + " id doesn't exist"));
     }
 
     public void updatePassword(String rawPassword, long userId) {

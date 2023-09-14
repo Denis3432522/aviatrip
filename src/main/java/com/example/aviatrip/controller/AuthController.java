@@ -3,21 +3,17 @@ package com.example.aviatrip.controller;
 import com.example.aviatrip.config.requestmodel.RepresentativeModel;
 import com.example.aviatrip.config.requestmodel.UpdateUserPasswordModel;
 import com.example.aviatrip.config.springsecurity.UserSessionManager;
-import com.example.aviatrip.enumeration.Roles;
 import com.example.aviatrip.model.User;
-import com.example.aviatrip.service.CustomerService;
-import com.example.aviatrip.service.RepresentativeService;
 import com.example.aviatrip.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.logout.LogoutHandler;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/auth")
+@RequestMapping("/auth")
 public class AuthController {
 
 

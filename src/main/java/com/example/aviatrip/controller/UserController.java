@@ -21,10 +21,7 @@ public class UserController {
 
     @GetMapping
     public User user(@AuthenticationPrincipal Long userId) {
-        System.out.println("id: " + userId);
-        User u = userService.retrieveUser(userId);
-        System.out.println(u.getRole().getName());
-        return u;
+        return userService.retrieveUser(userId);
     }
 
     @PatchMapping("/name")
