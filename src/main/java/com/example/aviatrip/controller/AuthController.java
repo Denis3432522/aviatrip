@@ -1,9 +1,12 @@
 package com.example.aviatrip.controller;
 
-import com.example.aviatrip.config.exception.UserAlreadyAuthenticatedException;
-import com.example.aviatrip.config.requestmodel.UpdatePasswordModel;
+import com.example.aviatrip.config.requestmodel.RepresentativeModel;
+import com.example.aviatrip.config.requestmodel.UpdateUserPasswordModel;
 import com.example.aviatrip.config.springsecurity.UserSessionManager;
+import com.example.aviatrip.enumeration.Roles;
 import com.example.aviatrip.model.User;
+import com.example.aviatrip.service.CustomerService;
+import com.example.aviatrip.service.RepresentativeService;
 import com.example.aviatrip.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -17,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/auth")
 public class AuthController {
 
+
     private final UserService userService;
     private final LogoutHandler logoutHandler;
     private final UserSessionManager sessionManager;
@@ -27,14 +31,23 @@ public class AuthController {
         this.sessionManager = sessionManager;
     }
 
-    @PostMapping("/signup")
-    @Transactional
-    public void signUp(@RequestBody @Valid User user, HttpServletRequest request, HttpServletResponse response) {
-        if(sessionManager.isUserAuthenticated())
-            throw new UserAlreadyAuthenticatedException("already authenticated");
+    @PostMapping("/signup/customer")
+    public void signUpAsCustomer(@RequestBody @Valid User user, HttpServletRequest request, HttpServletResponse response) {
+        sessionManager.assertNotAuthenticated();
 
-        userService.createUser(user);
-        sessionManager.rememberUser(user, request, response);
+        User persistedUser = userService.saveCustomer(user);
+
+        sessionManager.rememberUser(persistedUser, request, response);
+    }
+
+    @PostMapping("/signup/representative")
+    public void signUpAsRepresentative(@RequestBody @Valid RepresentativeModel model, HttpServletRequest request, HttpServletResponse response) {
+        sessionManager.assertNotAuthenticated();
+
+        User user = new User(model.getName(), model.getSurname(), model.getEmail(), model.getPassword());
+        User persistedUser = userService.saveRepresentative(user, model.getCompanyName());
+
+        sessionManager.rememberUser(persistedUser, request, response);
     }
 
     @PostMapping("/logout")
@@ -43,7 +56,7 @@ public class AuthController {
     }
 
     @PatchMapping("/password")
-    public void changePassword(@RequestBody @Valid UpdatePasswordModel data,
+    public void changePassword(@RequestBody @Valid UpdateUserPasswordModel data,
                                Authentication auth, HttpServletRequest request, HttpServletResponse response) {
 
         userService.updatePassword(data.password(), (Long) auth.getPrincipal());

@@ -1,5 +1,6 @@
 package com.example.aviatrip.config.springsecurity;
 
+import com.example.aviatrip.config.exception.UserAlreadyAuthenticatedException;
 import com.example.aviatrip.model.User;
 import com.example.aviatrip.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -29,9 +30,14 @@ public class UserSessionManager {
         this.contextRepository = contextRepository;
     }
 
-    public boolean isUserAuthenticated() {
+    public boolean isAuthenticated() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         return auth != null && !(auth instanceof AnonymousAuthenticationToken);
+    }
+
+    public void assertNotAuthenticated() {
+        if(isAuthenticated())
+            throw new UserAlreadyAuthenticatedException("already authenticated");
     }
 
     public void invalidateAllSessionsByUserId(Long userId) {

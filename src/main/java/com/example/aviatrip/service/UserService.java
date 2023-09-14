@@ -2,10 +2,12 @@ package com.example.aviatrip.service;
 
 import com.example.aviatrip.config.exception.ValueEqualsToPreviousValueException;
 import com.example.aviatrip.config.exception.ValueNotUniqueException;
+import com.example.aviatrip.enumeration.Roles;
 import com.example.aviatrip.model.Role;
 import com.example.aviatrip.model.User;
 import com.example.aviatrip.repository.RoleRepository;
 import com.example.aviatrip.repository.UserRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -16,22 +18,45 @@ import java.util.List;
 @Service
 public class UserService {
 
-    UserRepository userRepository;
-    PasswordEncoder passwordEncoder;
-    RoleRepository roleRepository;
+    private final UserRepository userRepository;
+    private final CustomerService customerService;
+    private final RepresentativeService representativeService;
+    private final PasswordEncoder passwordEncoder;
+    private final RoleRepository roleRepository;
 
-    public UserService(UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder) {
+    public UserService(UserRepository userRepository, CustomerService customerService, RepresentativeService representativeService, RoleRepository roleRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
+        this.customerService = customerService;
+        this.representativeService = representativeService;
         this.passwordEncoder = passwordEncoder;
         this.roleRepository = roleRepository;
     }
 
-    public void createUser(User user) {
-        checkEmailUniqueness(user.getEmail());
+    private User saveUser(User user, Roles role) {
+        assertEmailUniqueness(user.getEmail());
 
         String password = passwordEncoder.encode(user.getPassword());
         user.setPassword(password);
-        userRepository.save(user);
+        user.setRole(roleRepository.findByName(role).orElseThrow());
+
+        return userRepository.save(user);
+    }
+
+    @Transactional
+    public User saveCustomer(User user) {
+        User persistedUser = saveUser(user, Roles.ROLE_CUSTOMER);
+        customerService.createCustomer(persistedUser);
+
+        return persistedUser;
+    }
+
+    @Transactional
+    public User saveRepresentative(User user, String companyName) {
+        representativeService.assertCompanyNameUniqueness(companyName);
+        User persistedUser = saveUser(user, Roles.ROLE_REPRESENTATIVE);
+        representativeService.createRepresentativeAndCompany(persistedUser, companyName);
+
+        return persistedUser;
     }
 
     public User retrieveUser(Long userId) {
@@ -74,13 +99,13 @@ public class UserService {
         if(user.getEmail().equals(email))
             throw new ValueEqualsToPreviousValueException("email", true);
 
-        checkEmailUniqueness(email);
+        assertEmailUniqueness(email);
 
         user.setEmail(email);
         userRepository.save(user);
     }
 
-    public void checkEmailUniqueness(String email) {
+    public void assertEmailUniqueness(String email) {
         if(userRepository.existsByEmail(email))
             throw new ValueNotUniqueException("email", true);
     }

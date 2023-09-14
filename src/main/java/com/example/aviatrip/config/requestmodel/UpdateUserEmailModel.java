@@ -5,4 +5,4 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
-public record UpdateEmailModel(@NotNull @Size(min = 4, max = 50) @Email String email) {}
+public record UpdateUserEmailModel(@NotNull @Size(min = 4, max = 50) @Email String email) {}

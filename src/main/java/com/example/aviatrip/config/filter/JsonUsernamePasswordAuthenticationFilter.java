@@ -26,8 +26,7 @@ public class JsonUsernamePasswordAuthenticationFilter extends AbstractAuthentica
 
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
-        if(sessionManager.isUserAuthenticated())
-            throw new UserAlreadyAuthenticatedException("already authenticated");
+        sessionManager.assertNotAuthenticated();
 
         AuthenticationModel authModel;
         try {

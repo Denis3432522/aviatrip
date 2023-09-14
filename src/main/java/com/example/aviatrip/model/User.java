@@ -1,17 +1,18 @@
 package com.example.aviatrip.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 
 @Entity
 @Table(name = "users")
-@Inheritance(strategy = InheritanceType.JOINED)
 public class User {
 
     @Column(name = "user_id")
     @Id
     @GeneratedValue
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private long id;
 
     @Column
@@ -31,7 +32,7 @@ public class User {
     private String email;
 
     @Column
-    @JsonIgnore
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private long balance;
 
     @Column
@@ -39,20 +40,18 @@ public class User {
     @Size(min=8, max = 120)
     private String password;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "role_id")
-    @JsonIgnore
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @JoinColumn(name = "role_id", nullable = false)
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private Role role;
 
     public User() {}
 
-    public User(String name, String surname, String email, long balance, String password, Role role) {
+    public User(String name, String surname, String email, String password) {
         this.name = name;
         this.surname = surname;
         this.email = email;
-        this.balance = balance;
         this.password = password;
-        this.role = role;
     }
 
     public long getId() {

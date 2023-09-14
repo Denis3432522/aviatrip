@@ -1,8 +1,8 @@
 package com.example.aviatrip.controller;
 
-import com.example.aviatrip.config.requestmodel.UpdateEmailModel;
-import com.example.aviatrip.config.requestmodel.UpdateNameModel;
-import com.example.aviatrip.config.requestmodel.UpdateSurnameModel;
+import com.example.aviatrip.config.requestmodel.UpdateUserEmailModel;
+import com.example.aviatrip.config.requestmodel.UpdateUserNameModel;
+import com.example.aviatrip.config.requestmodel.UpdateUserSurnameModel;
 import com.example.aviatrip.model.User;
 import com.example.aviatrip.service.UserService;
 import jakarta.validation.Valid;
@@ -21,21 +21,24 @@ public class UserController {
 
     @GetMapping
     public User user(@AuthenticationPrincipal Long userId) {
-        return userService.retrieveUser(userId);
+        System.out.println("id: " + userId);
+        User u = userService.retrieveUser(userId);
+        System.out.println(u.getRole().getName());
+        return u;
     }
 
     @PatchMapping("/name")
-    public void changeName(@RequestBody @Valid UpdateNameModel model, @AuthenticationPrincipal Long userId) {
+    public void changeName(@RequestBody @Valid UpdateUserNameModel model, @AuthenticationPrincipal Long userId) {
         userService.updateName(model.name(), userId);
     }
 
     @PatchMapping("/surname")
-    public void changeSurname(@RequestBody @Valid UpdateSurnameModel model, @AuthenticationPrincipal Long userId) {
+    public void changeSurname(@RequestBody @Valid UpdateUserSurnameModel model, @AuthenticationPrincipal Long userId) {
         userService.updateSurname(model.surname(), userId);
     }
 
     @PatchMapping("/email")
-    public void changeEmail(@RequestBody @Valid UpdateEmailModel model, @AuthenticationPrincipal Long userId) {
+    public void changeEmail(@RequestBody @Valid UpdateUserEmailModel model, @AuthenticationPrincipal Long userId) {
         userService.updateEmail(model.email(), userId);
     }
 
