@@ -44,17 +44,21 @@ public class Flight {
     @JoinColumn(name = "avia_company_id", nullable = false)
     private AviaCompany company;
 
+    @Column(name = "seat_count")
+    private int seatCount;
+
     @OneToMany(mappedBy = "flight")
     private final Set<FlightSeat> seats = new HashSet<>();
 
     protected Flight() {}
 
-    public Flight(String airplaneModel, ZonedDateTime takeoffDate, ZonedDateTime landingDate, City source, City destination, AviaCompany company) {
+    public Flight(String airplaneModel, ZonedDateTime takeoffDate, ZonedDateTime landingDate, City source, City destination, int seatCount, AviaCompany company) {
         this.airplaneModel = airplaneModel;
         this.takeoffDate = takeoffDate;
         this.landingDate = landingDate;
         this.source = source;
         this.destination = destination;
+        this.seatCount = seatCount;
         this.company = company;
     }
 
@@ -80,6 +84,10 @@ public class Flight {
 
     public City getDestination() {
         return destination;
+    }
+
+    public int getSeatCount() {
+        return seatCount;
     }
 
     public AviaCompany getCompany() {

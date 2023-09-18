@@ -53,14 +53,16 @@ public class RepresentativeService {
         if(flightModel.getSource().equals(flightModel.getDestination()))
             throw new BadRequestException("source city must not be equal to a destination city");
 
-        var seatSections = flightModel.getSeats().values();
 
-        int totalSeatCount = seatSections.stream()
+
+        if(getSeatCount(flightModel) > 500)
+            throw new BadRequestException("total seat count must be less than 500 seats unless you got a spaceship");
+    }
+
+    private int getSeatCount(FlightModel model) {
+        return model.getSeats().values().stream()
                 .map(FlightSeatSectionModel::getCount)
                 .reduce(0, Integer::sum);
-
-        if(totalSeatCount > 500)
-            throw new BadRequestException("total seat count must be less than 500 seats unless you got a spaceship");
     }
 
     public Flight createFlight(FlightModel model, Long companyId) {
@@ -72,6 +74,7 @@ public class RepresentativeService {
                 model.getLandingTimestamp(),
                 City.valueOf(model.getSource().toUpperCase()),
                 City.valueOf(model.getDestination().toUpperCase()),
+                getSeatCount(model),
                 company
         );
 
