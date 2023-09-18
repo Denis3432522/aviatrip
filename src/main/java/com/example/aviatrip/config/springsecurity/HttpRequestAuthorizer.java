@@ -11,6 +11,7 @@ public class HttpRequestAuthorizer implements Customizer<AuthorizeHttpRequestsCo
         a.requestMatchers(HttpMethod.POST, "/auth/signup/**").permitAll()
                 .requestMatchers(HttpMethod.POST, "/auth/signin").permitAll()
                 .requestMatchers("/representative/**").hasRole("REPRESENTATIVE")
+                .requestMatchers("/reference/**").permitAll()
                 .anyRequest().authenticated();
     }
 }
