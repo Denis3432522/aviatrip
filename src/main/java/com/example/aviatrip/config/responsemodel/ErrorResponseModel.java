@@ -1,13 +1,13 @@
-package com.example.aviatrip.config.responsebody;
+package com.example.aviatrip.config.responsemodel;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class ErrorResponseBody {
+public class ErrorResponseModel {
 
     @JsonProperty("error_msg")
     private String errorMsg;
 
-    public ErrorResponseBody(String message) {
+    public ErrorResponseModel(String message) {
         errorMsg= message;
     }
 

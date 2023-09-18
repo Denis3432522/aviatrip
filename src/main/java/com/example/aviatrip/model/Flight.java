@@ -1,13 +1,21 @@
 package com.example.aviatrip.model;
 
+import com.example.aviatrip.enumeration.City;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Future;
+import jakarta.validation.constraints.Pattern;
+import org.hibernate.annotations.Immutable;
 
+import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
 @Table(name = "flights")
+@Immutable
 public class Flight {
 
     @Column(name = "flight_id")
@@ -15,23 +23,25 @@ public class Flight {
     @GeneratedValue
     private Long id;
 
-    @Column(name = "airplane_name", nullable = false)
-    private String airplaneName;
+    @Column(name = "airplane_model", nullable = false)
+    private String airplaneModel;
 
     @Column(name = "takeoff_date", nullable = false)
-    private Date takeoffDate;
+    private ZonedDateTime takeoffDate;
 
     @Column(name = "landing_date", nullable = false)
-    private Date landingDate;
+    private ZonedDateTime landingDate;
 
     @Column(nullable = false)
-    private String source;
+    @Enumerated(EnumType.STRING)
+    private City source;
 
     @Column(nullable = false)
-    private String destination;
+    @Enumerated(EnumType.STRING)
+    private City destination;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "avia_company_id", nullable = false, unique = true)
+    @JoinColumn(name = "avia_company_id", nullable = false)
     private AviaCompany company;
 
     @OneToMany(mappedBy = "flight")
@@ -39,8 +49,8 @@ public class Flight {
 
     protected Flight() {}
 
-    public Flight(String airplaneName, Date takeoffDate, Date landingDate, String source, String destination, AviaCompany company) {
-        this.airplaneName = airplaneName;
+    public Flight(String airplaneModel, ZonedDateTime takeoffDate, ZonedDateTime landingDate, City source, City destination, AviaCompany company) {
+        this.airplaneModel = airplaneModel;
         this.takeoffDate = takeoffDate;
         this.landingDate = landingDate;
         this.source = source;
@@ -52,23 +62,23 @@ public class Flight {
         return id;
     }
 
-    public String getAirplaneName() {
-        return airplaneName;
+    public String getAirplaneModel() {
+        return airplaneModel;
     }
 
-    public Date getTakeoffDate() {
+    public ZonedDateTime getTakeoffDate() {
         return takeoffDate;
     }
 
-    public Date getLandingDate() {
+    public ZonedDateTime getLandingDate() {
         return landingDate;
     }
 
-    public String getSource() {
+    public City getSource() {
         return source;
     }
 
-    public String getDestination() {
+    public City getDestination() {
         return destination;
     }
 

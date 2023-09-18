@@ -10,7 +10,7 @@ public class AviaCompanyRepresentative {
     private Long id;
 
     @OneToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "user_id", unique = true, nullable = false)
+    @JoinColumn(name = "user_id", nullable = false, unique = true)
     @MapsId
     private User user;
 

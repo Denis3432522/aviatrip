@@ -1,6 +1,6 @@
 package com.example.aviatrip.config.springsecurity;
 
-import com.example.aviatrip.config.responsebody.ErrorResponseBody;
+import com.example.aviatrip.config.responsemodel.ErrorResponseModel;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -15,7 +15,7 @@ public class JsonAuthenticationEntryPoint implements AuthenticationEntryPoint {
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 
         try(BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(response.getOutputStream()))) {
-            String errorMsg = new ObjectMapper().writeValueAsString(new ErrorResponseBody("not authenticated"));
+            String errorMsg = new ObjectMapper().writeValueAsString(new ErrorResponseModel("not authenticated"));
             writer.write(errorMsg);
         } catch (IOException e) {
            throw new RuntimeException(e.getMessage());

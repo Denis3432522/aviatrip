@@ -36,7 +36,7 @@ import java.util.Arrays;
 @ComponentScan("com.example.aviatrip")
 public class WebSecurityConfiguration {
 
-
+    @Autowired
     UserRepository userRepository;
 
     @Bean

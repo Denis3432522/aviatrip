@@ -10,7 +10,7 @@ public class HttpRequestAuthorizer implements Customizer<AuthorizeHttpRequestsCo
     public void customize(AuthorizeHttpRequestsConfigurer<HttpSecurity>.AuthorizationManagerRequestMatcherRegistry a) {
         a.requestMatchers(HttpMethod.POST, "/auth/signup/**").permitAll()
                 .requestMatchers(HttpMethod.POST, "/auth/signin").permitAll()
-                //.requestMatchers(HttpMethod.)
+                .requestMatchers("/representative/**").hasRole("REPRESENTATIVE")
                 .anyRequest().authenticated();
     }
 }

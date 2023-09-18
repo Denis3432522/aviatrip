@@ -1,9 +1,13 @@
 package com.example.aviatrip.model;
 
+import com.example.aviatrip.enumeration.FlightSeatClass;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import org.hibernate.annotations.Immutable;
 
 @Entity
 @Table(name = "flight_seats")
+@Immutable
 public class FlightSeat {
 
     @Column(name = "flight_seat_id")
@@ -18,10 +22,11 @@ public class FlightSeat {
     private int price;
 
     @Column(name = "class", nullable = false)
-    private int seatClass;
+    @Enumerated(EnumType.STRING)
+    private FlightSeatClass seatClass;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "flight_id", nullable = false, unique = true)
+    @JoinColumn(name = "flight_id", nullable = false)
     private Flight flight;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -30,8 +35,7 @@ public class FlightSeat {
 
     protected FlightSeat() {}
 
-    public FlightSeat(Long id, int position, int price, int seatClass, Flight flight) {
-        this.id = id;
+    public FlightSeat(int position, int price, FlightSeatClass seatClass, Flight flight) {
         this.position = position;
         this.price = price;
         this.seatClass = seatClass;
@@ -50,7 +54,7 @@ public class FlightSeat {
         return price;
     }
 
-    public int getSeatClass() {
+    public FlightSeatClass getSeatClass() {
         return seatClass;
     }
 

@@ -1,7 +1,7 @@
 package com.example.aviatrip.config.springsecurity;
 
 import com.example.aviatrip.config.exception.UserAlreadyAuthenticatedException;
-import com.example.aviatrip.config.responsebody.ErrorResponseBody;
+import com.example.aviatrip.config.responsemodel.ErrorResponseModel;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -19,7 +19,7 @@ public class JsonAuthenticationFailureHandler implements AuthenticationFailureHa
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 
         try(Writer writer = response.getWriter()) {
-            String errorMsg = new ObjectMapper().writeValueAsString(new ErrorResponseBody(ex.getMessage()));
+            String errorMsg = new ObjectMapper().writeValueAsString(new ErrorResponseModel(ex.getMessage()));
             writer.write(errorMsg);
         } catch (IOException e) {
             throw new RuntimeException(e.getMessage());

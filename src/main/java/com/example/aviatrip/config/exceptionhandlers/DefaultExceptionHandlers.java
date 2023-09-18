@@ -2,13 +2,17 @@ package com.example.aviatrip.config.exceptionhandlers;
 
 import com.example.aviatrip.config.exception.BadRequestException;
 import com.example.aviatrip.config.exception.UserAlreadyAuthenticatedException;
-import com.example.aviatrip.config.responsebody.ErrorResponseBody;
-import org.springframework.http.HttpStatus;
+import com.example.aviatrip.config.exception.ValueNotExistException;
+import com.example.aviatrip.config.responsemodel.ErrorResponseModel;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver;
+
+import java.io.*;
+import java.nio.file.NoSuchFileException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -24,17 +28,17 @@ public class DefaultExceptionHandlers {
     }
 
     @ExceptionHandler(BadRequestException.class)
-    public ResponseEntity<ErrorResponseBody> handleDefaultBadRequest(BadRequestException ex) {
-        return ResponseEntity.badRequest().body(new ErrorResponseBody(ex.getMessage()));
+    public ResponseEntity<ErrorResponseModel> handleDefaultBadRequest(BadRequestException ex) {
+        return ResponseEntity.badRequest().body(new ErrorResponseModel(ex.getMessage()));
     }
 
     @ExceptionHandler(UserAlreadyAuthenticatedException.class)
-    public ResponseEntity<ErrorResponseBody> handleUserAlreadyAuthenticated(UserAlreadyAuthenticatedException ex) {
-        return ResponseEntity.badRequest().body(new ErrorResponseBody(ex.getMessage()));
+    public ResponseEntity<ErrorResponseModel> handleUserAlreadyAuthenticated(UserAlreadyAuthenticatedException ex) {
+        return ResponseEntity.badRequest().body(new ErrorResponseModel(ex.getMessage()));
     }
 
     @ExceptionHandler(HttpMessageNotReadableException.class)
-    public ResponseEntity<ErrorResponseBody> handleNotReadableHttpMessage() {
-        return ResponseEntity.badRequest().body(new ErrorResponseBody("invalid format payload"));
+    public ResponseEntity<ErrorResponseModel> handleNotReadableHttpMessage() {
+        return ResponseEntity.badRequest().body(new ErrorResponseModel("invalid format payload"));
     }
 }
