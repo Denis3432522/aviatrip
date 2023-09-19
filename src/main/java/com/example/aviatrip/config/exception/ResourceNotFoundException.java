@@ -1,0 +1,15 @@
+package com.example.aviatrip.config.exception;
+
+public class ResourceNotFoundException extends RuntimeException {
+
+    private static final String MESSAGE_POSTFIX = " not found";
+    private static final String DEFAULT_MESSAGE = "resource" + MESSAGE_POSTFIX;
+
+    public ResourceNotFoundException() {
+        super(DEFAULT_MESSAGE);
+    }
+
+    public ResourceNotFoundException(String message, boolean useMessagePostfix) {
+        super(useMessagePostfix ? message + MESSAGE_POSTFIX : message);
+    }
+}

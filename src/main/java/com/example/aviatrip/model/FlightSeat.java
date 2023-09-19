@@ -2,6 +2,7 @@ package com.example.aviatrip.model;
 
 import com.example.aviatrip.enumeration.FlightSeatClass;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import org.hibernate.annotations.Immutable;
 
@@ -23,14 +24,17 @@ public class FlightSeat {
 
     @Column(name = "class", nullable = false)
     @Enumerated(EnumType.STRING)
+    @JsonProperty("seat_class")
     private FlightSeatClass seatClass;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "flight_id", nullable = false)
+    @JsonIgnore
     private Flight flight;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "customer_id")
+    @JsonIgnore
     private Customer customer;
 
     protected FlightSeat() {}

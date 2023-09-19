@@ -1,5 +1,7 @@
 package com.example.aviatrip.enumeration;
 
+import com.fasterxml.jackson.annotation.JsonValue;
+
 public enum City {
     MOSCOW,
     VLADIVOSTOK,
@@ -11,5 +13,10 @@ public enum City {
     VORONEZH,
     PERM,
     KEMEROVO,
-    ROSTOV
+    ROSTOV;
+
+    @JsonValue
+    public String getSerializedCity() {
+        return this.name().charAt(0) + this.name().substring(1).toLowerCase();
+    }
 }
