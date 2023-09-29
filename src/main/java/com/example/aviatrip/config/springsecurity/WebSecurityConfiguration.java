@@ -2,8 +2,6 @@ package com.example.aviatrip.config.springsecurity;
 
 import com.example.aviatrip.config.filter.JsonUsernamePasswordAuthenticationFilter;
 import com.example.aviatrip.repository.UserRepository;
-import com.example.aviatrip.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -15,7 +13,6 @@ import org.springframework.security.config.annotation.web.configurers.AuthorizeH
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.core.session.SessionRegistryImpl;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.AuthenticationEntryPoint;
@@ -26,7 +23,6 @@ import org.springframework.security.web.authentication.logout.SecurityContextLog
 import org.springframework.security.web.authentication.session.*;
 import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.security.web.context.SecurityContextRepository;
-import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import java.util.Arrays;
 
@@ -36,8 +32,11 @@ import java.util.Arrays;
 @ComponentScan("com.example.aviatrip")
 public class WebSecurityConfiguration {
 
-    @Autowired
-    UserRepository userRepository;
+    private final UserRepository userRepository;
+
+    public WebSecurityConfiguration(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
     @Bean
     protected SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -86,8 +85,8 @@ public class WebSecurityConfiguration {
     }
 
     @Bean
-    public UserSessionManager userSessionManager(UserService userService) {
-        return new UserSessionManager(sessionRegistry(), userService, securityContextRepository());
+    public UserSessionManager userSessionManager() {
+        return new UserSessionManager(sessionRegistry(), securityContextRepository(), userDetailsService());
     }
 
     @Bean
@@ -121,7 +120,7 @@ public class WebSecurityConfiguration {
     }
 
     @Bean
-    protected UserDetailsService userDetailsService() {
+    protected PersistentUserDetailsService userDetailsService() {
         return new PersistentUserDetailsService(userRepository);
     }
 

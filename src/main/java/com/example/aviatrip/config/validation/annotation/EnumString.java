@@ -8,9 +8,8 @@ import jakarta.validation.constraints.NotNull;
 
 import java.lang.annotation.*;
 
-@Target({ElementType.FIELD, ElementType.TYPE_USE})
+@Target({ElementType.FIELD, ElementType.TYPE_USE, ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
-@NotNull
 @Constraint(validatedBy = EnumStringValidator.class)
 @ReportAsSingleViolation
 @Documented

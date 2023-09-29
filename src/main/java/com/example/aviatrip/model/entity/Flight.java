@@ -1,9 +1,8 @@
-package com.example.aviatrip.model;
+package com.example.aviatrip.model.entity;
 
 import com.example.aviatrip.enumeration.City;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import jakarta.persistence.*;
 import org.hibernate.annotations.Immutable;
 
@@ -19,11 +18,7 @@ public class Flight {
     @Column(name = "flight_id")
     @Id
     @GeneratedValue
-    private Long id;
-
-    @Column(name = "airplane_model", nullable = false)
-    @JsonProperty(value = "airplane_model")
-    private String airplaneModel;
+    private long id;
 
     @Column(name = "takeoff_timestamp", nullable = false)
     @JsonProperty(value = "takeoff_timestamp")
@@ -35,21 +30,21 @@ public class Flight {
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    @JsonDeserialize()
     private City source;
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private City destination;
 
-    @Column(name = "seat_count")
-    @JsonProperty(value = "seat_count")
-    private int seatCount;
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @JoinColumn(name = "avia_company_id", nullable = false)
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    private AviaCompany company;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "avia_company_id", nullable = false)
+    @JoinColumn(name = "airplane_id", nullable = false)
     @JsonIgnore
-    private AviaCompany company;
+    private Airplane airplane;
 
     @OneToMany(mappedBy = "flight")
     @JsonIgnore
@@ -57,22 +52,17 @@ public class Flight {
 
     protected Flight() {}
 
-    public Flight(String airplaneModel, ZonedDateTime takeoffTimestamp, ZonedDateTime landingTimestamp, City source, City destination, int seatCount, AviaCompany company) {
-        this.airplaneModel = airplaneModel;
+    public Flight(Airplane airplane, ZonedDateTime takeoffTimestamp, ZonedDateTime landingTimestamp, City source, City destination, AviaCompany company) {
+        this.airplane = airplane;
         this.takeoffTimestamp = takeoffTimestamp;
         this.landingTimestamp = landingTimestamp;
         this.source = source;
         this.destination = destination;
-        this.seatCount = seatCount;
         this.company = company;
     }
 
-    public Long getId() {
+    public long getId() {
         return id;
-    }
-
-    public String getAirplaneModel() {
-        return airplaneModel;
     }
 
     public ZonedDateTime getTakeoffTimestamp() {
@@ -91,12 +81,12 @@ public class Flight {
         return destination;
     }
 
-    public int getSeatCount() {
-        return seatCount;
-    }
-
     public AviaCompany getCompany() {
         return company;
+    }
+
+    public Airplane getAirplane() {
+        return airplane;
     }
 
     public Set<FlightSeat> getSeats() {

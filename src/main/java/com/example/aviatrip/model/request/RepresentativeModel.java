@@ -1,8 +1,7 @@
-package com.example.aviatrip.config.requestmodel;
+package com.example.aviatrip.model.request;
 
-import com.example.aviatrip.model.User;
+import com.example.aviatrip.model.entity.User;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import jakarta.persistence.Transient;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 

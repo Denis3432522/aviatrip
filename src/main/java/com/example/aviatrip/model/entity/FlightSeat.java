@@ -1,23 +1,26 @@
-package com.example.aviatrip.model;
+package com.example.aviatrip.model.entity;
 
 import com.example.aviatrip.enumeration.FlightSeatClass;
+import com.example.aviatrip.model.entity.Customer;
+import com.example.aviatrip.model.entity.Flight;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
-import org.hibernate.annotations.Immutable;
 
 @Entity
 @Table(name = "flight_seats")
-@Immutable
 public class FlightSeat {
 
     @Column(name = "flight_seat_id")
     @Id
     @GeneratedValue
-    public Long id;
+    private long id;
 
     @Column(nullable = false)
-    private int position;
+    private String position;
+
+    @Column(name = "is_window_seat",nullable = false)
+    private boolean isWindowSeat;
 
     @Column(nullable = false)
     private int price;
@@ -27,9 +30,9 @@ public class FlightSeat {
     @JsonProperty("seat_class")
     private FlightSeatClass seatClass;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "flight_id", nullable = false)
-    @JsonIgnore
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private Flight flight;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -39,19 +42,24 @@ public class FlightSeat {
 
     protected FlightSeat() {}
 
-    public FlightSeat(int position, int price, FlightSeatClass seatClass, Flight flight) {
+    public FlightSeat(String position, boolean isWindowSeat, int price, FlightSeatClass seatClass, Flight flight) {
         this.position = position;
+        this.isWindowSeat = isWindowSeat;
         this.price = price;
         this.seatClass = seatClass;
         this.flight = flight;
     }
 
-    public Long getId() {
+    public long getId() {
         return id;
     }
 
-    public int getPosition() {
+    public String getPosition() {
         return position;
+    }
+
+    public boolean isWindowSeat() {
+        return isWindowSeat;
     }
 
     public int getPrice() {
@@ -68,5 +76,20 @@ public class FlightSeat {
 
     public Customer getCustomer() {
         return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
+
+    @Override
+    public String toString() {
+        return "FlightSeat{" +
+                "id=" + id +
+                ", position=" + position +
+                ", isWindowSeat=" + isWindowSeat +
+                ", price=" + price +
+                ", seatClass=" + seatClass +
+                '}';
     }
 }

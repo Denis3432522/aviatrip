@@ -1,4 +1,4 @@
-package com.example.aviatrip.model;
+package com.example.aviatrip.model.entity;
 
 import com.example.aviatrip.enumeration.Roles;
 import jakarta.persistence.*;

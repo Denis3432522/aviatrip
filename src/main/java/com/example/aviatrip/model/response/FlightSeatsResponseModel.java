@@ -1,6 +1,6 @@
-package com.example.aviatrip.config.responsemodel;
+package com.example.aviatrip.model.response;
 
-import com.example.aviatrip.model.FlightSeat;
+import com.example.aviatrip.model.entity.FlightSeat;
 
 import java.util.List;
 

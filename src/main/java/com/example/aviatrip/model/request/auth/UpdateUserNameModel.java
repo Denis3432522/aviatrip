@@ -1,6 +1,5 @@
-package com.example.aviatrip.config.requestmodel;
+package com.example.aviatrip.model.request.auth;
 
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 

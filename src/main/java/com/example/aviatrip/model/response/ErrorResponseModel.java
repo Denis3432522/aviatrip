@@ -1,4 +1,4 @@
-package com.example.aviatrip.config.responsemodel;
+package com.example.aviatrip.model.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

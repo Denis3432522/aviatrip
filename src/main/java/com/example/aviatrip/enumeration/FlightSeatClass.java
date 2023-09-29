@@ -1,5 +1,6 @@
 package com.example.aviatrip.enumeration;
 
+import com.fasterxml.jackson.annotation.JsonEnumDefaultValue;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 public enum FlightSeatClass {

@@ -1,4 +1,4 @@
-package com.example.aviatrip.config.requestmodel;
+package com.example.aviatrip.model.request;
 
 import com.example.aviatrip.config.validation.annotation.EnumString;
 import com.example.aviatrip.enumeration.City;
@@ -6,12 +6,10 @@ import com.example.aviatrip.enumeration.FlightSeatClass;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
-import org.springframework.validation.annotation.Validated;
 
 import java.time.ZonedDateTime;
 import java.util.Map;
 
-@Validated
 public class FlightModel {
 
     @JsonProperty("airplane_model")
@@ -36,32 +34,29 @@ public class FlightModel {
     private String destination;
 
     @NotEmpty(message = "must have at least one flight seat class configured")
-    private Map<@EnumString(enumClazz = FlightSeatClass.class, propertyName = "class") String, @Valid FlightSeatSectionModel> seats;
+    private Map<@EnumString(enumClazz = FlightSeatClass.class, propertyName = "class") String, @Valid FlightPassengerSectionPriceModel> sections;
 
-    public Map<String, FlightSeatSectionModel> getSeats() {
-        return seats;
+    public Map<String, FlightPassengerSectionPriceModel> getSections() {
+        return sections;
     }
 
-    @JsonProperty("airplane_model")
     public String getAirplaneModel() {
         return airplaneModel;
     }
 
-    @JsonProperty("takeoff_timestamp")
     public ZonedDateTime getTakeoffTimestamp() {
         return takeoffTimestamp;
     }
 
-    @JsonProperty("landing_timestamp")
     public ZonedDateTime getLandingTimestamp() {
         return landingTimestamp;
     }
 
-    public String getSource() {
-        return source;
+    public City getSource() {
+        return City.valueOf(source.toUpperCase());
     }
 
-    public String getDestination() {
-        return destination;
+    public City getDestination() {
+        return City.valueOf(destination.toUpperCase());
     }
 }

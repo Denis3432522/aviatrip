@@ -1,4 +1,4 @@
-package com.example.aviatrip.model;
+package com.example.aviatrip.model.entity;
 
 import jakarta.persistence.*;
 

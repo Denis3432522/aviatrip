@@ -1,8 +1,7 @@
 package com.example.aviatrip.config.springsecurity;
 
 import com.example.aviatrip.config.exception.UserAlreadyAuthenticatedException;
-import com.example.aviatrip.model.User;
-import com.example.aviatrip.service.UserService;
+import com.example.aviatrip.model.entity.User;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
@@ -21,13 +20,13 @@ import java.util.List;
 public class UserSessionManager {
 
     private final SessionRegistry sessionRegistry;
-    private final UserService userService;
     private final SecurityContextRepository contextRepository;
+    private final PersistentUserDetailsService userDetailsService;
 
-    public UserSessionManager(SessionRegistry sessionRegistry, UserService userService, SecurityContextRepository contextRepository) {
+    public UserSessionManager(SessionRegistry sessionRegistry, SecurityContextRepository contextRepository, PersistentUserDetailsService userDetailsService) {
         this.sessionRegistry = sessionRegistry;
-        this.userService = userService;
         this.contextRepository = contextRepository;
+        this.userDetailsService = userDetailsService;
     }
 
     public boolean isAuthenticated() {
@@ -56,7 +55,7 @@ public class UserSessionManager {
 
     public void rememberUser(User user, HttpServletRequest request, HttpServletResponse response) {
         Authentication authentication = new UsernamePasswordAuthenticationToken(user.getId(), null,
-                userService.retrieveAuthorities(user));
+                userDetailsService.retrieveAuthorities(user));
         SecurityContext context = SecurityContextHolder.createEmptyContext();
         context.setAuthentication(authentication);
 

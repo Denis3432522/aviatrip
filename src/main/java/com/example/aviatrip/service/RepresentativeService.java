@@ -1,38 +1,22 @@
 package com.example.aviatrip.service;
 
-import com.example.aviatrip.config.exception.BadRequestException;
-import com.example.aviatrip.config.exception.ResourceNotFoundException;
 import com.example.aviatrip.config.exception.ValueNotUniqueException;
-import com.example.aviatrip.config.requestmodel.FlightModel;
-import com.example.aviatrip.config.requestmodel.FlightSeatSectionModel;
-import com.example.aviatrip.enumeration.City;
-import com.example.aviatrip.enumeration.FlightSeatClass;
-import com.example.aviatrip.model.*;
-import com.example.aviatrip.repository.CompanyRepository;
-import com.example.aviatrip.repository.FlightRepository;
-import com.example.aviatrip.repository.RepresentativeRepository;
-import com.example.aviatrip.repository.FlightSeatRepository;
+import com.example.aviatrip.model.entity.*;
+import com.example.aviatrip.repository.*;
 import org.springframework.stereotype.Service;
-
-import java.time.Duration;
-import java.util.*;
 
 @Service
 public class RepresentativeService {
 
     private final RepresentativeRepository representativeRepository;
     private final CompanyRepository companyRepository;
-    private final FlightRepository flightRepository;
-    private final FlightSeatRepository seatRepository;
 
-    public RepresentativeService(RepresentativeRepository representativeRepository, CompanyRepository companyRepository, FlightRepository flightRepository, FlightSeatRepository seatRepository) {
+    public RepresentativeService(RepresentativeRepository representativeRepository, CompanyRepository companyRepository) {
         this.representativeRepository = representativeRepository;
         this.companyRepository = companyRepository;
-        this.flightRepository = flightRepository;
-        this.seatRepository = seatRepository;
     }
 
-    public void assertCompanyNameUniqueness(String companyName) {
+    public void assertCompanyNameUnique(String companyName) {
         if(companyRepository.existsByName(companyName))
             throw new ValueNotUniqueException("company name", true);
     }
@@ -41,80 +25,5 @@ public class RepresentativeService {
         AviaCompanyRepresentative representative = representativeRepository.save(new AviaCompanyRepresentative(model));
         AviaCompany aviaCompany = new AviaCompany(companyName, representative);
         companyRepository.save(aviaCompany);
-    }
-    
-    public void validateFlightModel(FlightModel flightModel) {
-        Duration duration = Duration.between(flightModel.getTakeoffTimestamp(), flightModel.getLandingTimestamp());
-        if(duration.toMinutes() < 30)
-            throw new BadRequestException("flight duration must be longer than 30 minutes");
-
-        if(flightModel.getSource().equals(flightModel.getDestination()))
-            throw new BadRequestException("source city must not be equal to a destination city");
-
-
-
-        if(getSeatCount(flightModel) > 500)
-            throw new BadRequestException("total seat count must be less than 500 seats unless you got a spaceship");
-    }
-
-    private int getSeatCount(FlightModel model) {
-        return model.getSeats().values().stream()
-                .map(FlightSeatSectionModel::getCount)
-                .reduce(0, Integer::sum);
-    }
-
-    public Flight createFlight(FlightModel model, Long companyId) {
-        AviaCompany company = companyRepository.findById(companyId).orElseThrow(RuntimeException::new);
-
-        Flight flight = new Flight(
-                model.getAirplaneModel(),
-                model.getTakeoffTimestamp(),
-                model.getLandingTimestamp(),
-                City.valueOf(model.getSource().toUpperCase()),
-                City.valueOf(model.getDestination().toUpperCase()),
-                getSeatCount(model),
-                company
-        );
-
-        return flightRepository.save(flight);
-    }
-    
-    public void createFlightSeats(Map<String, FlightSeatSectionModel> sections, Flight flight) {
-        List<FlightSeat> seats = new ArrayList<>(100);
-
-        for(var section : sections.entrySet()) {
-            fillListWithFlightSeats(seats, flight, section);
-        }
-
-        seatRepository.saveAll(seats);
-    }
-
-    private void fillListWithFlightSeats(List<FlightSeat> seats, Flight flight, Map.Entry<String, FlightSeatSectionModel> section) {
-        var seatClass = FlightSeatClass.valueOf(section.getKey().toUpperCase());
-        int price = section.getValue().getPrice();
-        int count = section.getValue().getCount();
-
-        for(int i=1; i<=count; i++) {
-            seats.add(new FlightSeat(i, price, seatClass, flight));
-        }
-    }
-
-    public List<Flight> getFlights(long companyId) {
-        return flightRepository.findByCompanyId(companyId);
-    }
-
-    public Flight getFlight(long flightId) {
-        Optional<Flight> flight = flightRepository.findById(flightId);
-        if(flight.isPresent())
-            return flight.get();
-
-        throw new ResourceNotFoundException("flight with id " + flightId, true);
-    }
-
-    public List<FlightSeat> getFlightSeats(long flightId) {
-        if(!flightRepository.existsById(flightId))
-            throw new ResourceNotFoundException("flight with id " + flightId, true);
-
-        return seatRepository.findByFlightId(flightId);
     }
 }

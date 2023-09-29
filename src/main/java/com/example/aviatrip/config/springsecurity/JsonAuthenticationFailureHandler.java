@@ -1,7 +1,7 @@
 package com.example.aviatrip.config.springsecurity;
 
 import com.example.aviatrip.config.exception.UserAlreadyAuthenticatedException;
-import com.example.aviatrip.config.responsemodel.ErrorResponseModel;
+import com.example.aviatrip.model.response.ErrorResponseModel;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

@@ -1,6 +1,6 @@
-package com.example.aviatrip.model;
+package com.example.aviatrip.model.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.example.aviatrip.model.entity.Role;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
@@ -40,6 +40,7 @@ public class User {
     @Column
     @NotNull
     @Size(min=8, max = 120)
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false)

@@ -3,17 +3,12 @@ package com.example.aviatrip.service;
 import com.example.aviatrip.config.exception.ValueEqualsToPreviousValueException;
 import com.example.aviatrip.config.exception.ValueNotUniqueException;
 import com.example.aviatrip.enumeration.Roles;
-import com.example.aviatrip.model.Role;
-import com.example.aviatrip.model.User;
+import com.example.aviatrip.model.entity.User;
 import com.example.aviatrip.repository.RoleRepository;
 import com.example.aviatrip.repository.UserRepository;
 import jakarta.transaction.Transactional;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class UserService {
@@ -52,7 +47,7 @@ public class UserService {
 
     @Transactional
     public User saveRepresentative(User user, String companyName) {
-        representativeService.assertCompanyNameUniqueness(companyName);
+        representativeService.assertCompanyNameUnique(companyName);
         User persistedUser = saveUser(user, Roles.ROLE_REPRESENTATIVE);
         representativeService.createRepresentativeAndCompany(persistedUser, companyName);
 
@@ -110,11 +105,7 @@ public class UserService {
             throw new ValueNotUniqueException("email", true);
     }
 
-    public List<? extends GrantedAuthority> retrieveAuthorities(User user) {
-        Role role = user.getRole();
 
-        return (role != null) ? List.of(new SimpleGrantedAuthority(role.getName().name())) : null;
-    }
 
     public void deleteUser(Long userId) {
         userRepository.deleteById(userId);
