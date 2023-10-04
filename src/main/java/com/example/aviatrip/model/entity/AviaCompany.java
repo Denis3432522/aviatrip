@@ -19,12 +19,10 @@ public class AviaCompany {
     @OneToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "avia_company_representative_id", nullable = false, unique = true)
     @MapsId
-    // remove ignore
     @JsonIgnore
     private AviaCompanyRepresentative representative;
 
     @OneToMany(mappedBy = "company")
-    // remove ignore
     @JsonIgnore
     private Set<Flight> flights = new HashSet<>();
 

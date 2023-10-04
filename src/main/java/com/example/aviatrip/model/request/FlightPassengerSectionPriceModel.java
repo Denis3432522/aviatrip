@@ -23,12 +23,4 @@ public class FlightPassengerSectionPriceModel {
     public int getWindowSeatPrice() {
         return windowSeatPrice;
     }
-
-    @Override
-    public String toString() {
-        return "FlightPassengerSectionPriceModel{" +
-                "seatPrice=" + seatPrice +
-                ", windowSeatPrice=" + windowSeatPrice +
-                '}';
-    }
 }

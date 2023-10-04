@@ -30,9 +30,10 @@ public class FlightSeat {
     @JsonProperty("seat_class")
     private FlightSeatClass seatClass;
 
-    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "flight_id", nullable = false)
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    @JsonIgnore
     private Flight flight;
 
     @ManyToOne(fetch = FetchType.LAZY)

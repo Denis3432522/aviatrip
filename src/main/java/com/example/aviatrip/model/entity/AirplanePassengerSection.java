@@ -52,6 +52,7 @@ public class AirplanePassengerSection {
         return id;
     }
 
+    @JsonProperty("seat_class")
     public FlightSeatClass getSeatClass() {
         return seatClass;
     }

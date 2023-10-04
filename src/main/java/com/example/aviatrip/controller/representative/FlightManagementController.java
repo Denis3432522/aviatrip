@@ -1,6 +1,5 @@
 package com.example.aviatrip.controller.representative;
 
-import com.example.aviatrip.config.exception.ResourceNotFoundException;
 import com.example.aviatrip.model.entity.Airplane;
 import com.example.aviatrip.model.request.FlightModel;
 import com.example.aviatrip.model.response.FlightsResponseModel;
@@ -10,10 +9,9 @@ import com.example.aviatrip.service.AirplaneService;
 import com.example.aviatrip.service.FlightService;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.*;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/representative/flights")
@@ -39,8 +37,9 @@ public class FlightManagementController {
     }
 
     @GetMapping
-    public FlightsResponseModel getCompanyFlights(@AuthenticationPrincipal Long companyId) {
-        return new FlightsResponseModel(flightService.getCompanyFlights(companyId));
+    public FlightsResponseModel getCompanyFlights(@RequestParam(value = "page", defaultValue = "0") int pageNumber, @AuthenticationPrincipal Long companyId) {
+        Pageable pageRequest = PageRequest.of(pageNumber, 5);
+        return new FlightsResponseModel(flightService.getCompanyFlights(companyId, pageRequest));
     }
 
     @GetMapping("/{flightId}")
@@ -49,8 +48,9 @@ public class FlightManagementController {
     }
 
     @GetMapping("/{flightId}/seats")
-    public FlightSeatsResponseModel getCompanyFlightSeats(@PathVariable int flightId, @AuthenticationPrincipal Long companyId) {
-        return new FlightSeatsResponseModel(flightService.getCompanyFlightSeats(flightId, companyId));
+    public FlightSeatsResponseModel getCompanyFlightSeats(@RequestParam(value = "page", defaultValue = "0") int pageNumber, @PathVariable int flightId, @AuthenticationPrincipal Long companyId) {
+        Pageable pageRequest = PageRequest.of(pageNumber, 5);
+        return new FlightSeatsResponseModel(flightService.getCompanyFlightSeats(flightId, companyId, pageRequest));
     }
 }
 

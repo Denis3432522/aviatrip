@@ -36,14 +36,13 @@ public class Flight {
     @Enumerated(EnumType.STRING)
     private City destination;
 
-    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "avia_company_id", nullable = false)
-    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    @JsonIgnore
     private AviaCompany company;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "airplane_id", nullable = false)
-    @JsonIgnore
     private Airplane airplane;
 
     @OneToMany(mappedBy = "flight")

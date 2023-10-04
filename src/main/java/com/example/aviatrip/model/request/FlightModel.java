@@ -1,12 +1,16 @@
 package com.example.aviatrip.model.request;
 
 import com.example.aviatrip.config.validation.annotation.EnumString;
+import com.example.aviatrip.config.validation.annotation.FutureDateLimit;
+import com.example.aviatrip.config.validation.annotation.FutureTimeOffset;
 import com.example.aviatrip.enumeration.City;
 import com.example.aviatrip.enumeration.FlightSeatClass;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.Map;
 
@@ -19,13 +23,13 @@ public class FlightModel {
 
     @JsonProperty("takeoff_timestamp")
     @NotNull
-    @Future
-    private ZonedDateTime takeoffTimestamp;
+    @FutureTimeOffset
+    @FutureDateLimit
+    private LocalDateTime takeoffTimestamp;
 
     @JsonProperty("landing_timestamp")
     @NotNull
-    @Future
-    private ZonedDateTime landingTimestamp;
+    private LocalDateTime landingTimestamp;
 
     @EnumString(enumClazz = City.class, propertyName = "city")
     private String source;
@@ -45,11 +49,11 @@ public class FlightModel {
     }
 
     public ZonedDateTime getTakeoffTimestamp() {
-        return takeoffTimestamp;
+        return ZonedDateTime.of(takeoffTimestamp, ZoneId.of("UTC"));
     }
 
     public ZonedDateTime getLandingTimestamp() {
-        return landingTimestamp;
+        return ZonedDateTime.of(landingTimestamp, ZoneId.of("UTC"));
     }
 
     public City getSource() {

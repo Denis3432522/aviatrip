@@ -28,8 +28,9 @@ public class Airplane {
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private int capacity;
 
-    @OneToMany(mappedBy = "airplane", fetch = FetchType.EAGER, cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
+    @OneToMany(mappedBy = "airplane", fetch = FetchType.LAZY, cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
     @NotEmpty(message = "must have at least one flight seat section configured")
+    @JsonIgnore
     private Set<@Valid AirplanePassengerSection> sections;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
@@ -37,11 +38,12 @@ public class Airplane {
     @JsonIgnore
     private AviaCompany company;
 
-    public Airplane() {}
+    protected Airplane() {}
 
-    public Airplane(String model, int capacity) {
+    public Airplane(String model, int capacity, AviaCompany company) {
         this.model = model;
         this.capacity = capacity;
+        this.company = company;
     }
 
     public long getId() {

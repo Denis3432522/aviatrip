@@ -1,15 +1,15 @@
 package com.example.aviatrip.repository.flight;
 
 import com.example.aviatrip.model.entity.Flight;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
 import java.util.Optional;
 
-public interface FlightRepository extends JpaRepository<Flight, Long>, JpaSpecificationExecutor<Flight> {
+public interface FlightRepository extends CrudRepository<Flight, Long> {
 
-    List<Flight> findByCompanyId(long companyId);
+    List<Flight> findByCompanyId(long companyId, Pageable pageable);
 
     boolean existsByIdAndCompanyId(long id, long companyId);
 
