@@ -23,6 +23,8 @@ public class FutureDateLimitValidator implements ConstraintValidator<FutureDateL
     }
     @Override
     public boolean isValid(Temporal date, ConstraintValidatorContext constraintValidatorContext) {
+        if(date == null) return true;
+
         long durationInDays = ChronoUnit.DAYS.between(LocalDate.now(ZoneId.of("UTC")), date);
 
         if(durationInDays < dayLimit)

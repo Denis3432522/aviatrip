@@ -33,14 +33,16 @@ public class FlightModel {
     @NotNull
     private LocalDateTime landingTimestamp;
 
+    @NotNull
     @EnumString(enumClazz = City.class, propertyName = "city")
     private String source;
 
+    @NotNull
     @EnumString(enumClazz = City.class, propertyName = "city")
     private String destination;
 
     @NotEmpty(message = "must have at least one flight seat class configured")
-    private Map<@EnumString(enumClazz = FlightSeatClass.class, propertyName = "class") String, @Valid FlightPassengerSectionPriceModel> sections;
+    private Map<@NotNull @EnumString(enumClazz = FlightSeatClass.class, propertyName = "class") String, @Valid FlightPassengerSectionPriceModel> sections;
 
     public Map<String, FlightPassengerSectionPriceModel> getSections() {
         return sections;

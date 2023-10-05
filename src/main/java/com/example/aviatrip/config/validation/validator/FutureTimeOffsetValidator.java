@@ -22,6 +22,8 @@ public class FutureTimeOffsetValidator implements ConstraintValidator<FutureTime
     }
     @Override
     public boolean isValid(LocalDateTime date, ConstraintValidatorContext constraintValidatorContext) {
+        if(date == null) return true;
+
         long durationInSeconds = ChronoUnit.SECONDS.between(LocalDateTime.now(ZoneId.of("UTC")), date);
 
         if(durationInSeconds >= ((long) hourOffset * 60 * 60))

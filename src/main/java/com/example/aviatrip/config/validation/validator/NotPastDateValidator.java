@@ -10,6 +10,8 @@ import java.time.ZoneId;
 public class NotPastDateValidator implements ConstraintValidator<NotPastDate, LocalDate> {
     @Override
     public boolean isValid(LocalDate date, ConstraintValidatorContext constraintValidatorContext) {
+        if(date == null) return true;
+
         LocalDate currentDate = LocalDate.now(ZoneId.of("UTC"));
 
         if(currentDate.getYear() == date.getYear())

@@ -20,12 +20,12 @@ public class EnumStringValidator implements ConstraintValidator<EnumString, Stri
                 .toList();
 
         String propertyName = constraintAnnotation.propertyName();
-        messageTemplate = (!propertyName.equals("") ? propertyName + " " : "") + "? doesn't exist";
+        messageTemplate = (!propertyName.isEmpty() ? propertyName + " " : "") + "? doesn't exist";
     }
 
     @Override
     public boolean isValid(String s, ConstraintValidatorContext constraintValidatorContext) {
-        if(valueList.contains(s.toUpperCase()))
+        if(s == null || valueList.contains(s.toUpperCase()))
             return true;
 
         String msg = messageTemplate.replaceAll("\\?", s);

@@ -31,7 +31,7 @@ public class JsonUsernamePasswordAuthenticationFilter extends AbstractAuthentica
         AuthenticationModel authModel;
         try {
             authModel = new ObjectMapper().readValue(request.getInputStream(), AuthenticationModel.class);
-            if(authModel.email() == null || authModel.email().equals("") || authModel.password() == null || authModel.password().equals(""))
+            if(authModel.email() == null || authModel.email().isEmpty() || authModel.password() == null || authModel.password().isEmpty())
                 throw new IOException();
 
         } catch (IOException e) {
