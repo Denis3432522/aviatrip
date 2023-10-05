@@ -1,9 +1,9 @@
 package com.example.aviatrip.controller;
 
-import com.example.aviatrip.model.request.RepresentativeModel;
-import com.example.aviatrip.model.request.auth.UpdateUserPasswordModel;
 import com.example.aviatrip.config.springsecurity.UserSessionManager;
 import com.example.aviatrip.model.entity.User;
+import com.example.aviatrip.model.request.RepresentativeModel;
+import com.example.aviatrip.model.request.auth.UpdateUserPasswordModel;
 import com.example.aviatrip.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

@@ -1,8 +1,11 @@
 package com.example.aviatrip.service;
 
 import com.example.aviatrip.config.exception.ValueNotUniqueException;
-import com.example.aviatrip.model.entity.*;
-import com.example.aviatrip.repository.*;
+import com.example.aviatrip.model.entity.AviaCompany;
+import com.example.aviatrip.model.entity.AviaCompanyRepresentative;
+import com.example.aviatrip.model.entity.User;
+import com.example.aviatrip.repository.CompanyRepository;
+import com.example.aviatrip.repository.RepresentativeRepository;
 import org.springframework.stereotype.Service;
 
 @Service

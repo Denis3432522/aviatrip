@@ -4,7 +4,6 @@ import com.example.aviatrip.config.validation.validator.EnumStringValidator;
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
 import jakarta.validation.ReportAsSingleViolation;
-import jakarta.validation.constraints.NotNull;
 
 import java.lang.annotation.*;
 

@@ -1,9 +1,9 @@
 package com.example.aviatrip.controller;
 
+import com.example.aviatrip.model.entity.User;
 import com.example.aviatrip.model.request.auth.UpdateUserEmailModel;
 import com.example.aviatrip.model.request.auth.UpdateUserNameModel;
 import com.example.aviatrip.model.request.auth.UpdateUserSurnameModel;
-import com.example.aviatrip.model.entity.User;
 import com.example.aviatrip.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;

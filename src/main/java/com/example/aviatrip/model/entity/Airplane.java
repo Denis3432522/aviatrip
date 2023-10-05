@@ -30,7 +30,6 @@ public class Airplane {
 
     @OneToMany(mappedBy = "airplane", fetch = FetchType.LAZY, cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
     @NotEmpty(message = "must have at least one flight seat section configured")
-    @JsonIgnore
     private Set<@Valid AirplanePassengerSection> sections;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)

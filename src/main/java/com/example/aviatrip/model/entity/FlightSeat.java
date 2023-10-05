@@ -1,8 +1,6 @@
 package com.example.aviatrip.model.entity;
 
 import com.example.aviatrip.enumeration.FlightSeatClass;
-import com.example.aviatrip.model.entity.Customer;
-import com.example.aviatrip.model.entity.Flight;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;

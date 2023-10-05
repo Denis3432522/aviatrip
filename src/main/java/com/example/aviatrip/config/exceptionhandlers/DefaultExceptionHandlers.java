@@ -1,16 +1,16 @@
 package com.example.aviatrip.config.exceptionhandlers;
 
 import com.example.aviatrip.config.exception.BadRequestException;
-import com.example.aviatrip.config.exception.UserAlreadyAuthenticatedException;
 import com.example.aviatrip.config.exception.ResourceNotFoundException;
+import com.example.aviatrip.config.exception.UserAlreadyAuthenticatedException;
 import com.example.aviatrip.model.response.ErrorResponseModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
-import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.util.HashMap;
 import java.util.Map;

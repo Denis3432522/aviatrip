@@ -7,7 +7,9 @@ import com.example.aviatrip.enumeration.City;
 import com.example.aviatrip.enumeration.FlightSeatClass;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.*;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;

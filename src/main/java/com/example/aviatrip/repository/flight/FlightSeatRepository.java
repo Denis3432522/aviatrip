@@ -1,7 +1,6 @@
 package com.example.aviatrip.repository.flight;
 
 import com.example.aviatrip.model.entity.FlightSeat;
-
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 

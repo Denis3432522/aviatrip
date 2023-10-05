@@ -1,7 +1,7 @@
 package com.example.aviatrip.config.filter;
 
-import com.example.aviatrip.model.request.auth.AuthenticationModel;
 import com.example.aviatrip.config.springsecurity.UserSessionManager;
+import com.example.aviatrip.model.request.auth.AuthenticationModel;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -12,6 +12,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+
 import java.io.IOException;
 
 public class JsonUsernamePasswordAuthenticationFilter extends AbstractAuthenticationProcessingFilter {

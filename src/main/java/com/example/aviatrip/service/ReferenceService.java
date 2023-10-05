@@ -11,10 +11,18 @@ import java.util.List;
 public class ReferenceService {
 
     public List<String> getAvailableCities() {
-        return Arrays.stream(City.values()).map(c -> c.name().toLowerCase()).toList();
+        return Arrays.stream(City.values())
+                .map(this::mapEnumToPrettyName)
+                .toList();
     }
 
     public List<String> getAvailableFlightSeatClasses() {
-        return Arrays.stream(FlightSeatClass.values()).map(c -> c.name().toLowerCase()).toList();
+        return Arrays.stream(FlightSeatClass.values())
+                .map(this::mapEnumToPrettyName)
+                .toList();
+    }
+
+    public String mapEnumToPrettyName(Enum<?> enums) {
+        return Character.toUpperCase(enums.name().charAt(0)) + enums.name().substring(1).toLowerCase();
     }
 }

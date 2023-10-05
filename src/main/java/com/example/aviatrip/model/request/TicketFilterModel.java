@@ -6,14 +6,12 @@ import com.example.aviatrip.config.validation.annotation.NotPastDate;
 import com.example.aviatrip.enumeration.City;
 import com.example.aviatrip.enumeration.FlightSeatClass;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 import java.time.LocalDate;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
-import java.util.*;
+import java.util.Optional;
+import java.util.Set;
 
 public class TicketFilterModel {
 

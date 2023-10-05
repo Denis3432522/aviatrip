@@ -6,7 +6,6 @@ import jakarta.validation.ConstraintValidatorContext;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.time.ZonedDateTime;
 
 public class NotPastDateValidator implements ConstraintValidator<NotPastDate, LocalDate> {
     @Override

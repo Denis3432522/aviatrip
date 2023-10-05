@@ -2,7 +2,6 @@ package com.example.aviatrip.service;
 
 import com.example.aviatrip.config.exception.BadRequestException;
 import com.example.aviatrip.model.request.TicketFilterModel;
-import com.example.aviatrip.model.entity.FlightSeat;
 import com.example.aviatrip.model.response.Ticket;
 import com.example.aviatrip.repository.custom.TicketSearcherRepository;
 import com.example.aviatrip.repository.flight.FlightRepository;

@@ -7,11 +7,12 @@ import com.example.aviatrip.model.entity.Airplane;
 import com.example.aviatrip.model.entity.AirplanePassengerSection;
 import com.example.aviatrip.model.entity.AviaCompany;
 import com.example.aviatrip.repository.CompanyRepository;
-import com.example.aviatrip.repository.airplane.AirplanePassengerSectionRepository;
 import com.example.aviatrip.repository.airplane.AirplaneRepository;
 import jakarta.transaction.Transactional;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -69,12 +70,19 @@ public class AirplaneService {
         return sections.stream().mapToInt(AirplanePassengerSection::getSeatCount).sum();
     }
 
-    public Airplane getAirplane(String airplaneModel) {
-        Optional<Airplane> airplane = airplaneRepository.findAirplaneByModel(airplaneModel);
+    public List<Airplane> getCompanyAirplanes(long companyId, Pageable pageRequest) {
+        return airplaneRepository.findByCompanyId(companyId, pageRequest);
+    }
 
-        if(airplane.isEmpty())
-            throw new ResourceNotFoundException("airplane " + airplaneModel, true);
+    public Airplane getCompanyAirplaneById(long airplaneId, long companyId) {
+        Optional<Airplane> airplane = airplaneRepository.findAirplaneByIdAndCompanyId(airplaneId, companyId);
 
-        return airplane.get();
+        return airplane.orElseThrow(() -> new ResourceNotFoundException("airplane with id " + airplaneId, true));
+    }
+
+    public Airplane getCompanyAirplaneByModel(String airplaneModel, long companyId) {
+        Optional<Airplane> airplane = airplaneRepository.findAirplaneByModelAndCompanyId(airplaneModel, companyId);
+
+        return airplane.orElseThrow(() -> new ResourceNotFoundException("airplane " + airplaneModel, true));
     }
 }

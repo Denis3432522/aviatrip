@@ -2,7 +2,8 @@ package com.example.aviatrip.service;
 
 import com.example.aviatrip.model.entity.Customer;
 import com.example.aviatrip.model.entity.User;
-import com.example.aviatrip.repository.*;
+import com.example.aviatrip.repository.CustomerRepository;
+import com.example.aviatrip.repository.RoleRepository;
 import com.example.aviatrip.repository.flight.FlightRepository;
 import com.example.aviatrip.repository.flight.FlightSeatRepository;
 import jakarta.transaction.Transactional;

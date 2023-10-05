@@ -1,8 +1,8 @@
 package com.example.aviatrip.repository;
 
+import com.example.aviatrip.model.entity.AviaCompany;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.jpa.repository.JpaRepository;
-import com.example.aviatrip.model.entity.AviaCompany;
 import org.springframework.stereotype.Repository;
 
 @Repository

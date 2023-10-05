@@ -1,7 +1,6 @@
 package com.example.aviatrip.model.entity;
 
 import com.example.aviatrip.enumeration.FlightSeatClass;
-import com.example.aviatrip.model.entity.Airplane;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
@@ -16,6 +15,7 @@ public class AirplanePassengerSection {
     @Column(name = "airplane_seat_section_id")
     @Id
     @GeneratedValue
+    @JsonIgnore
     private long id;
 
     @Column(name = "seat_class")

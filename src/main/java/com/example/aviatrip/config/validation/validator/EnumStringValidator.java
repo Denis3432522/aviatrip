@@ -6,7 +6,6 @@ import jakarta.validation.ConstraintValidatorContext;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 
 public class EnumStringValidator implements ConstraintValidator<EnumString, String> {
 

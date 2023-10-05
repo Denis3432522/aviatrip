@@ -1,8 +1,6 @@
 package com.example.aviatrip.model.response;
 
 import com.example.aviatrip.enumeration.City;
-import com.example.aviatrip.model.entity.Flight;
-import com.example.aviatrip.model.entity.FlightSeat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.time.ZonedDateTime;

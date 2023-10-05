@@ -3,7 +3,10 @@ package com.example.aviatrip.service;
 import com.example.aviatrip.config.exception.BadRequestException;
 import com.example.aviatrip.config.exception.ResourceNotFoundException;
 import com.example.aviatrip.enumeration.FlightSeatClass;
-import com.example.aviatrip.model.entity.*;
+import com.example.aviatrip.model.entity.Airplane;
+import com.example.aviatrip.model.entity.AirplanePassengerSection;
+import com.example.aviatrip.model.entity.Flight;
+import com.example.aviatrip.model.entity.FlightSeat;
 import com.example.aviatrip.model.request.FlightModel;
 import com.example.aviatrip.model.request.FlightPassengerSectionPriceModel;
 import com.example.aviatrip.repository.flight.FlightRepository;
@@ -24,11 +27,6 @@ public class FlightService {
     public FlightService(FlightRepository flightRepository, FlightSeatRepository flightSeatRepository) {
         this.flightRepository = flightRepository;
         this.flightSeatRepository = flightSeatRepository;
-    }
-
-    public void assertCompanyOwnAirplane(Airplane airplane, Long companyId) {
-        if(airplane.getCompany().getId() != companyId)
-            throw new BadRequestException("you don't own the airplane " + airplane.getModel());
     }
 
     public void validateFlightModel(FlightModel flightModel, Airplane airplane) {
@@ -106,10 +104,8 @@ public class FlightService {
 
     public Flight getCompanyFlight(long flightId, long companyId) {
         Optional<Flight> flight = flightRepository.findByIdAndCompanyId(flightId, companyId);
-        if(flight.isPresent())
-            return flight.get();
 
-        throw new ResourceNotFoundException("flight with id " + flightId, true);
+        return flight.orElseThrow(() -> new ResourceNotFoundException("flight with id " + flightId, true));
     }
 
     public List<FlightSeat> getCompanyFlightSeats(long flightId, long companyId, Pageable pageable) {
